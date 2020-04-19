@@ -1,3 +1,3 @@
-my first commit on github
+JavaScript:
 
-testing purpose only
+Here will provide you basic but important concept about the JavaScript.
