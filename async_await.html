@@ -1,0 +1,54 @@
+<html>
+    <head>
+        <title>Asyc Await Example</title>
+    </head>
+    <body>
+        <h1>Async Await Example</h1>
+        <hr/>        
+        <h2>Open browser console</h2>
+        <script>
+            // Async await introduced in ES2018, We use async/await to unblock our javascript main thread. Before we were using promises(ES2015).
+
+            // it will wait till particular second based on callback
+           function wait(callback){
+                return new Promise(callback);
+            }
+            
+            async function threeSecond(){
+                var response = wait((resolve, reject) => {
+                    setTimeout(() => {
+                        resolve('done three second');
+                    }, 3000);
+                }); // it will wait till 3 second
+                let result = await response; // it will hold here for 3 second, till the time javascript will execute other things, after promise response it execute 
+                return result;                
+            }
+
+            async function fourSecond(){
+                var response = wait((resolve, reject) => {
+                    setTimeout(() => {
+                        resolve('done four second');
+                    }, 4000);
+                });// it will wait till 4 second
+                let result = await response;// it will hold here for 4 second, till the time javascript will execute other things, after promise response it execute
+                return result;
+            }
+
+            async function fetchApi(){
+                var response = fetch('https://api.github.com/users/sundaramj').then(e=>e.json());
+
+                var result = await response;// it hold here till response from git url
+                return result;
+            }
+
+            console.log('==========Start==========');// execute first
+            fourSecond().then(e=>console.log(e));// it will execute fourth
+            threeSecond().then(e=>console.log(e));// it will execute third
+            fetchApi().then(e=>console.log(e));// it will execute second if response time is less than 3 second, if more than 3 second then threeSecond function print response first
+
+
+            //console.log('==========End==========');// execute second, because above three lives asynchronous, if above 3 lines were synchronous then the same line execute on 5th position
+
+        </script>
+    </body>
+</html>
